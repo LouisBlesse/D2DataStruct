@@ -9,5 +9,9 @@ public:
 	void printTree(KdTree::KdNoeud*);
 	void searchKDTree(KdTree::KdNoeud*);
 	bool search(KdTree::KdNoeud*, KdTree::KdNoeud::Point, int);
+	KdTree::KdNoeud* deleteKDNoeud(KdTree::KdNoeud* , KdTree::KdNoeud::Point , int );
+	KdTree::KdNoeud* findMin(KdTree::KdNoeud*, int, int);
+	KdTree::KdNoeud* minNode(KdTree::KdNoeud* , KdTree::KdNoeud* , KdTree::KdNoeud* , int );
+	KdTree::KdNoeud* deleteKDTree(KdTree::KdNoeud*);
 };
 
