@@ -21,6 +21,7 @@ void Programme1::Play() {
         }
         else if (choix == 4) {
             Tree.racine = deleteKDTree(Tree.racine);
+            printTree(Tree.racine);
         }
     }
 }
@@ -76,7 +77,7 @@ KdTree::KdNoeud* Programme1::insert(KdTree::KdNoeud::Point P, KdTree::KdNoeud *t
 
 void Programme1::printTree(KdTree::KdNoeud* Tree)
 {
-    if (Tree != 0)
+    if (Tree != NULL)
     {
         printTree(Tree->gauche);
         cout << "(" << Tree->data.val1 << " , " << Tree->data.val2 << ")" << endl;
@@ -115,18 +116,18 @@ bool Programme1::search(KdTree::KdNoeud* t, KdTree::KdNoeud::Point P, int i) {
     // and decide the left or right subtree
     if (cd == 0) {
         if (P.val1 < t->data.val1) {
-            t->gauche = insert(P, t->gauche, i + 1);
+            search(t->gauche,P, i + 1);
         }
         else {
-            t->droite = insert(P, t->droite, i + 1);
+            search(t->droite,P, i + 1);
         }
     }
     else {
         if (P.val2 < t->data.val2) {
-            t->gauche = insert(P, t->gauche, i + 1);
+            search(t->gauche, P, i + 1);
         }
         else {
-            t->droite = insert(P, t->droite, i + 1);
+            search(t->droite, P, i + 1);
         }
 
     }
