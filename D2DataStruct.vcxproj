@@ -140,10 +140,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="D2DataStruct.cpp" />
+    <ClCompile Include="KdTree.cpp" />
     <ClCompile Include="Programme1.cpp" />
     <ClCompile Include="Programme2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="KdTree.h" />
     <ClInclude Include="Programme1.h" />
     <ClInclude Include="Programme2.h" />
   </ItemGroup>
