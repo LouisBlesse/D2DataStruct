@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Programme1.h"
 #include "Programme2.h"
+#include "Programme3.h"
 using namespace std;
 
 int main()
@@ -22,11 +23,11 @@ int main()
             Programme2 party = Programme2();
             party.Play();
         }
-        /*else if (choix == 3) {
+        else if (choix == 3) {
             Programme3 party = Programme3();
             party.Play();
         }
-        else if (choix == 4) {
+        /*else if (choix == 4) {
             Programme4 party = Programme4();
             party.Play();
         }*/
