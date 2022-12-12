@@ -1,6 +1,7 @@
 #include "Programme3.h"
 #include <iostream>
 #include <queue>
+#include <stack>
 using namespace std;
 
 
@@ -39,7 +40,7 @@ void Programme3::Play() {
 			BFS(labyrinthe, size, pStart, pEnd);
 		}
 		else if (choix == 2) {
-			cout << "wip";
+			A(labyrinthe, size, pStart, pEnd);
 		}
 	}
 
@@ -243,62 +244,40 @@ void Programme3::PrintLabyrinthe(Cell** t, int size) {
 }
 
 void  Programme3::BFS(Cell** t, const int size, Point src, Point dest) {
-	// check source and destination cell
-// of the matrix have value 1
 
-	/*bool visited[ROW][COL];
-	memset(visited, false, sizeof visited);*/
-
-	// Mark the source cell as visited
 	int rowNum[] = { -1, 0, 0, 1 };
 	int colNum[] = { 0, -1, 1, 0 };
 
-
-	//bool visited[size][size];
 	t[src.x][src.y].visited = true;
 
-	// Create a queue for BFS
 	queue<Point> queue;
 
-	// Distance of source cell is 0
 	src.dist = 0;
-	queue.push(src);  // Enqueue source cell
+	queue.push(src); 
 
-	// Do a BFS starting from source cell
 	while (!queue.empty())
 	{
 		Point pt = queue.front();
 
-		// If we have reached the destination cell,
-		// we are done
 		if (pt.x == dest.x && pt.y == dest.y) {
 			cout << "\n Point trouve !\n";
 			return;
 		}
 
-
-		// Otherwise dequeue the front
-		// cell in the queue
-		// and enqueue its adjacent cells
 		queue.pop();
 		for (int i = 0; i < 4; i++)
 		{
 			int x = pt.x + rowNum[i];
 			int y = pt.y + colNum[i];
 
-			// if adjacent cell is valid, has path and
-			// not visited yet, enqueue it.
 			if ((x >= 0) && (x < size) && (y >= 0) && (y < size)) {
-				//if (t[x][y].visited)
 				if (t[x][y].visited != true && ((t[pt.x][pt.y].data == t[x][y].data - 1) || (t[pt.x][pt.y].data == t[x][y].data + 1)))
 				{
-					// mark cell as visited and enqueue it
 					t[x][y].visited = true;
 					Point cell (x, y, pt.dist + 1);
 					cout << "x = " << x << " y = " << y;
 					queue.push(cell);
 					PrintLabyrinthe(t, size);
-					//stop = true;
 					if (x == dest.x && y == dest.y) {
 						cout << "\n Point trouve !\n";
 						return;
@@ -313,10 +292,118 @@ void  Programme3::BFS(Cell** t, const int size, Point src, Point dest) {
 		}
 	}
 
-	// Return -1 if destination cannot be reached
 	return;
 }
 
+void  Programme3::A(Cell** t, const int size, Point src, Point dest){
+	vector<Point> empty;
 
+	if (src.x == dest.x && src.y == dest.y) {
+		return;
+	}
+
+	int x = src.x;
+	int y = src.y;
+	t[x][y].dist = 0.0;
+	t[x][y].parentX = x;
+	t[x][y].parentY = y;
+
+	vector<Cell> openList;
+	openList.emplace_back(t[x][y]);
+	bool destinationFound = false;
+
+	while (!openList.empty() && openList.size() < size*size) {
+		Cell node;
+		do {
+			float temp = FLT_MAX;
+			vector<Cell>::iterator thisCell;
+			for (vector<Cell>::iterator it = openList.begin();
+				it != openList.end(); it = next(it)) {
+				Cell n = *it;
+				if (n.dist < temp) {
+					temp = n.dist;
+					thisCell = it;
+				}
+			}
+			node = *thisCell;
+			openList.erase(thisCell);
+		} while ((node.x >= 0) && (node.x < size) && (node.y >= 0) && (node.y < size) == false);
+
+		x = node.x;
+		y = node.y;
+		t[x][y].visited = true;
+
+		for (int newX = -1; newX <= 1; newX++) {
+			for (int newY = -1; newY <= 1; newY++) {
+				double newDist;
+				if ((node.x + newX >= 0) && (node.x + newX < size) && (node.y + newY >= 0) && (node.y + newY < size)) {
+					if (node.x + newX == dest.x && node.y + newY== dest.y)
+					{
+						t[x + newX][y + newY].parentX = x;
+						t[x + newX][y + newY].parentY = y;
+						destinationFound = true;
+						makePath(t, dest);
+						return;
+					}
+					else if (t[x + newX][y + newY].visited == false)
+					{
+						newDist = node.dist + 1.0 + calculateD(x + newX, y + newY, dest);
+						if (t[x + newX][y + newY].dist > newDist)
+						{
+							t[x + newX][y + newY].dist = newDist;
+							t[x + newX][y + newY].parentX = x;
+							t[x + newX][y + newY].parentY = y;
+							openList.emplace_back(t[x + newX][y + newY]);
+						}
+					}
+				}
+			}
+		}
+	}
+	if (destinationFound == false) {
+		cout << "Destination not found" << endl;
+		return;
+	}
+}
+
+void Programme3::makePath(Cell** t, Point dest) {
+	try {
+		cout << "\nPassage trouvé\n" << endl;
+		int x = dest.x;
+		int y = dest.y;
+		stack<Cell> path;
+		vector<Cell> usablePath;
+
+		while (!(t[x][y].parentX == x && t[x][y].parentY == y)
+			&& t[x][y].x != -1 && t[x][y].y != -1)
+		{
+			path.push(t[x][y]);
+			int tempX = t[x][y].parentX;
+			int tempY = t[x][y].parentY;
+			x = tempX;
+			y = tempY;
+
+		}
+		path.push(t[x][y]);
+
+		while (!path.empty()) {
+			Cell top = path.top();
+			path.pop();
+			usablePath.emplace_back(top);
+		}
+		for (int i = 0; i < usablePath.size(); i++) {
+			cout << usablePath[i].data;
+		}
+
+	}
+	catch (const exception& e) {
+		cout << e.what() << endl;
+	}
+}
+
+double Programme3::calculateD(int x, int y, Point dest) {
+	double d = (sqrt((x - dest.x) * (x - dest.x)+ (y - dest.y) * (y - dest.y)));
+	return d;
+}
 
 
