@@ -1,5 +1,6 @@
 #pragma once
 #include "Cell.cpp"
+#include "Point.cpp"
 class Programme3
 {
 public:
@@ -9,5 +10,6 @@ public:
 	void PrintLabyrinthe(Cell**, int);
 	bool checkEnd(Cell**, int);
 	char getDirection(Cell**, int, int, int);
+	void  BFS(Cell**, int, Point, Point);
 };
 

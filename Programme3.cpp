@@ -1,6 +1,8 @@
 #include "Programme3.h"
 #include <iostream>
+#include <queue>
 using namespace std;
+
 
 void Programme3::Play() {
 	int size;
@@ -15,15 +17,17 @@ void Programme3::Play() {
 	PrintLabyrinthe(labyrinthe, size);
 
 	int Xuser, Yuser;
-	cout << "\nOu voulez vous mettre l'entree du labyrinthe ? (x puis y)\n ";
+	cout << "\nOu voulez vous mettre l'entree du labyrinthe ? (x puis y)\n";
 	cin >> Xuser;
 	cin >> Yuser;
 	labyrinthe[Xuser][Yuser].start = 1;
+	Point pStart(Xuser, Yuser);
 
-	cout << "\nOu voulez vous mettre la sortie ? (x puis y)\n ";
+	cout << "\nOu voulez vous mettre la sortie ? (x puis y)\n";
 	cin >> Xuser;
 	cin >> Yuser;
 	labyrinthe[Xuser][Yuser].stop = 1;
+	Point pEnd(Xuser, Yuser);
 
 	PrintLabyrinthe(labyrinthe, size);
 	
@@ -32,7 +36,7 @@ void Programme3::Play() {
 		cout << "\nComment voulez vous résoudre le labyrinthe ? \n 1: BFS \n 2: A*";
 		cin >> choix;
 		if (choix == 1) {
-			cout << "wip";
+			BFS(labyrinthe, size, pStart, pEnd);
 		}
 		else if (choix == 2) {
 			cout << "wip";
@@ -48,8 +52,6 @@ Cell** Programme3::generate(int size) {
 	}
 	return ary;
 }
-
-
 
 Cell** Programme3::GrowTree(Cell** t, int size) {
 
@@ -119,7 +121,6 @@ Cell** Programme3::GrowTree(Cell** t, int size) {
 		
 		PrintLabyrinthe(t, size);
 	}
-
 	return t;
 	
 }
@@ -132,7 +133,6 @@ bool Programme3::checkEnd(Cell** t, int size) {
 			}
 		}
 	}
-
 	return 1;
 }
 
@@ -224,17 +224,97 @@ void Programme3::PrintLabyrinthe(Cell** t, int size) {
 	cout << "\n\n";
 	for (int i = 0; i < size; ++i) {
 		for (int j = 0; j < size; j++) {
-			if (t[i][j].start == 1) {
-				cout << "\033[32m" << "[" << t[i][j].data << "]";
+			if (t[i][j].visited == true) {
+				cout << "\033[33m";
+			}
+			else if (t[i][j].start == 1) {
+				cout << "\033[32m";
 			}
 			else if (t[i][j].stop == 1) {
-				cout << "\033[31m" << "[" << t[i][j].data << "]";
+				cout << "\033[31m";
 			}
-			cout << "\033[0m"<< "[" << t[i][j].data << "]";
-		}
+			cout << "[" << t[i][j].data << "]";
+			cout << "\033[0m";
+				
+			}
 		cout << "\n";
 	}
 	cout << "\n\n";	
+}
+
+void  Programme3::BFS(Cell** t, const int size, Point src, Point dest) {
+	// check source and destination cell
+// of the matrix have value 1
+
+	/*bool visited[ROW][COL];
+	memset(visited, false, sizeof visited);*/
+
+	// Mark the source cell as visited
+	int rowNum[] = { -1, 0, 0, 1 };
+	int colNum[] = { 0, -1, 1, 0 };
+
+
+	//bool visited[size][size];
+	t[src.x][src.y].visited = true;
+
+	// Create a queue for BFS
+	queue<Point> queue;
+
+	// Distance of source cell is 0
+	src.dist = 0;
+	queue.push(src);  // Enqueue source cell
+
+	// Do a BFS starting from source cell
+	while (!queue.empty())
+	{
+		Point pt = queue.front();
+
+		// If we have reached the destination cell,
+		// we are done
+		if (pt.x == dest.x && pt.y == dest.y) {
+			cout << "\n Point trouve !\n";
+			return;
+		}
+
+
+		// Otherwise dequeue the front
+		// cell in the queue
+		// and enqueue its adjacent cells
+		queue.pop();
+		for (int i = 0; i < 4; i++)
+		{
+			int x = pt.x + rowNum[i];
+			int y = pt.y + colNum[i];
+
+			// if adjacent cell is valid, has path and
+			// not visited yet, enqueue it.
+			if ((x >= 0) && (x < size) && (y >= 0) && (y < size)) {
+				//if (t[x][y].visited)
+				if (t[x][y].visited != true && ((t[pt.x][pt.y].data == t[x][y].data - 1) || (t[pt.x][pt.y].data == t[x][y].data + 1)))
+				{
+					// mark cell as visited and enqueue it
+					t[x][y].visited = true;
+					Point cell (x, y, pt.dist + 1);
+					cout << "x = " << x << " y = " << y;
+					queue.push(cell);
+					PrintLabyrinthe(t, size);
+					//stop = true;
+					if (x == dest.x && y == dest.y) {
+						cout << "\n Point trouve !\n";
+						return;
+					}
+
+
+				}
+			}
+
+
+
+		}
+	}
+
+	// Return -1 if destination cannot be reached
+	return;
 }
 
 

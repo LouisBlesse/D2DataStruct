@@ -4,6 +4,7 @@ class Cell
 public:
 	int data;
 	bool know;
+	bool visited;
 	bool start;
 	bool stop;
 	Cell(): data(0), know(0){}

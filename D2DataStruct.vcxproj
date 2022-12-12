@@ -142,6 +142,7 @@
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="D2DataStruct.cpp" />
     <ClCompile Include="KdTree.cpp" />
+    <ClCompile Include="Point.cpp" />
     <ClCompile Include="Programme1.cpp" />
     <ClCompile Include="Programme2.cpp" />
     <ClCompile Include="Programme3.cpp" />
@@ -149,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="Cell.h" />
     <ClInclude Include="KdTree.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="Programme1.h" />
     <ClInclude Include="Programme2.h" />
     <ClInclude Include="Programme3.h" />
