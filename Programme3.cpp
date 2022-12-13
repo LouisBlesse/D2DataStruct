@@ -302,9 +302,25 @@ void  Programme3::A(Cell** t, const int size, Point src, Point dest){
 		return;
 	}
 
+	for (int x = 0; x < size; x++) {
+		for (int y = 0; y < size; y++) {
+			t[x][y].fCost = FLT_MAX;
+			t[x][y].gCost = FLT_MAX;
+			t[x][y].hCost = FLT_MAX;
+			t[x][y].parentX = -1;
+			t[x][y].parentY = -1;
+			t[x][y].x = x;
+			t[x][y].y = y;
+
+			t[x][y].visited = false;
+		}
+	}
+
 	int x = src.x;
 	int y = src.y;
-	t[x][y].dist = 0.0;
+	t[x][y].fCost = 0.0;
+	t[x][y].gCost = 0.0;
+	t[x][y].hCost = 0.0;
 	t[x][y].parentX = x;
 	t[x][y].parentY = y;
 
@@ -313,20 +329,20 @@ void  Programme3::A(Cell** t, const int size, Point src, Point dest){
 	bool destinationFound = false;
 
 	while (!openList.empty() && openList.size() < size*size) {
-		Cell node;
+		Cell node(x,y);
 		do {
 			float temp = FLT_MAX;
-			vector<Cell>::iterator thisCell;
+			vector<Cell>::iterator itNode;
 			for (vector<Cell>::iterator it = openList.begin();
 				it != openList.end(); it = next(it)) {
 				Cell n = *it;
-				if (n.dist < temp) {
-					temp = n.dist;
-					thisCell = it;
+				if (n.fCost < temp) {
+					temp = n.fCost;
+					itNode = it;
 				}
 			}
-			node = *thisCell;
-			openList.erase(thisCell);
+			node = *itNode;
+			openList.erase(itNode);
 		} while ((node.x >= 0) && (node.x < size) && (node.y >= 0) && (node.y < size) == false);
 
 		x = node.x;
@@ -335,29 +351,45 @@ void  Programme3::A(Cell** t, const int size, Point src, Point dest){
 
 		for (int newX = -1; newX <= 1; newX++) {
 			for (int newY = -1; newY <= 1; newY++) {
-				double newDist;
+				
+				double gNew, hNew, fNew;
+
 				if ((node.x + newX >= 0) && (node.x + newX < size) && (node.y + newY >= 0) && (node.y + newY < size)) {
-					if (node.x + newX == dest.x && node.y + newY== dest.y)
-					{
-						t[x + newX][y + newY].parentX = x;
-						t[x + newX][y + newY].parentY = y;
-						destinationFound = true;
-						makePath(t, dest);
-						return;
-					}
-					else if (t[x + newX][y + newY].visited == false)
-					{
-						newDist = node.dist + 1.0 + calculateD(x + newX, y + newY, dest);
-						if (t[x + newX][y + newY].dist > newDist)
+					if (t[x + newX][y + newY].data == t[x][y].data || t[x + newX][y + newY].data == t[x][y].data - 1 || t[x + newX][y + newY].data == t[x][y].data + 1) {
+						
+						if (node.x + newX == dest.x && node.y + newY == dest.y)
 						{
-							t[x + newX][y + newY].dist = newDist;
 							t[x + newX][y + newY].parentX = x;
 							t[x + newX][y + newY].parentY = y;
-							openList.emplace_back(t[x + newX][y + newY]);
+							t[x + newX][y + newY].visited = true;
+							destinationFound = true;
+							PrintLabyrinthe(t, size);
+							makePath(t, dest);
+							return;
 						}
+						else if (t[x + newX][y + newY].visited == false)
+						{
+
+							gNew = node.gCost + 1.0;
+							hNew = calculateD(x + newX, y + newY, dest);
+							fNew = gNew + hNew;
+							if (t[x + newX][y + newY].fCost == FLT_MAX || t[x + newX][y + newY].fCost > fNew)
+							{
+								t[x + newX][y + newY].fCost = fNew;
+								t[x + newX][y + newY].gCost = gNew;
+								t[x + newX][y + newY].hCost = hNew;
+								t[x + newX][y + newY].parentX = x;
+								t[x + newX][y + newY].parentY = y;
+								openList.emplace_back(t[x + newX][y + newY]);
+							}
+							PrintLabyrinthe(t, size);
+						}
+						
 					}
 				}
+								
 			}
+			
 		}
 	}
 	if (destinationFound == false) {
@@ -390,9 +422,6 @@ void Programme3::makePath(Cell** t, Point dest) {
 			Cell top = path.top();
 			path.pop();
 			usablePath.emplace_back(top);
-		}
-		for (int i = 0; i < usablePath.size(); i++) {
-			cout << usablePath[i].data;
 		}
 
 	}
