@@ -13,14 +13,48 @@ using namespace cv;
 void Encode() {
 	int choix2 = 0;
 
-	cout << "Quelle image voulez-vous encodez ?" << endl << "99- Chat" << endl;
+	cout << "Quelle image voulez-vous encodez ?" << endl << "1- Chat" << endl << "2- Lune" << endl << "3- montgolfiere" << endl << "4- motif" << endl << "5- motif3" << endl << "6- soleil" << endl << "7- tableau" << endl << "8- tableau2" << endl;
 	cin >> choix2;
-    if (choix2 == 99) {
-        int enc;
-        cout << "Combien de niveau d'encodage voulez vous ?" << endl;
-        cin >> enc;
-        Mat img = imread("C:/Users/Charles/Documents/UQAC/Structure de donnée/Projet 2/Fichiers/Exo4/Images/chat.png", IMREAD_GRAYSCALE);
+    string choix = "C:/Users/Charles/Documents/UQAC/Structure_de_donnee/Projet2/Fichiers/Exo4/Images/";
+    string choixname;
+    string choixfile;
+    if (choix2 == 1) {
+        choixname = "chat.png";
+        choixfile = choix + choixname;
+    }
+    if (choix2 == 2) {
+        choixname = "lune.png";
+        choixfile = choix + choixname;
+    }
+    if (choix2 == 3) {
+        choixname = "montgolfiere.png";
+        choixfile = choix + choixname;
+    }
+    if (choix2 == 4) {
+        choixname = "motif.png";
+        choixfile = choix + choixname;
+    }
+    if (choix2 == 5) {
+        choixname = "motif3.png";
+        choixfile = choix + choixname;
+    }
+    if (choix2 == 6) {
+        choixname = "soleil.png";
+        choixfile = choix + choixname;
+    }
+    if (choix2 == 7) {
+        choixname = "tableau.png";
+        choixfile = choix + choixname;
+    }
+    if (choix2 == 8) {
+        choixname = "tableau2.png";
+        choixfile = choix + choixname;
+    }
 
+    int enc;
+    cout << "Combien de niveau d'encodage voulez vous ?" << endl;
+    cin >> enc;
+    Mat img = imread(choixfile, IMREAD_GRAYSCALE);
         int rows = img.rows;
         int cols = img.cols;
 
@@ -50,7 +84,6 @@ void Encode() {
             waitKey(0);
         }
     }
-}
 
 void Programme4::Play() {
         Encode();
