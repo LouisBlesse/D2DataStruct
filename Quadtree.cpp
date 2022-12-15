@@ -116,6 +116,9 @@ float get_pixel_variance(qt_node* q) {
 }
 
 void build_tree(qt_node* start, int max_var) {
+    if (start == NULL) {
+        return;
+    }
     float var = get_pixel_variance(start);
 
     if (var > max_var) {
@@ -134,6 +137,9 @@ void build_tree(qt_node* start, int max_var) {
 
 
 void unpack_tree(qt_node* start, int* unpacked, int total_rows, int total_cols) {
+    if (start == NULL) {
+        return;
+    }
 
     if (start->is_leaf) {
         int r_min = start->r_min;
@@ -156,6 +162,9 @@ void unpack_tree(qt_node* start, int* unpacked, int total_rows, int total_cols) 
 }
 
 void unpack_tree(qt_node* start, cv::Mat& modified, int total_rows, int total_cols) {
+    if (start == NULL) {
+        return;
+    }
 
     if (start->is_leaf) {
         int r_min = start->r_min;
@@ -178,6 +187,9 @@ void unpack_tree(qt_node* start, cv::Mat& modified, int total_rows, int total_co
 }
 
 int count_tree_nodes(qt_node* start) {
+    if (start == NULL) {
+        return 0;
+    }
     if (start->is_leaf) {
         return 1;
     }
@@ -187,6 +199,9 @@ int count_tree_nodes(qt_node* start) {
 }
 
 int check_num_pixels(qt_node* start) {
+    if (start == NULL) {
+        return 0;
+    }
     if (start->is_leaf) {
         int size = (start->r_max - start->r_min + 1) * (start->c_max - start->c_min + 1);
         return size;
