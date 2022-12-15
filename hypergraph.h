@@ -84,6 +84,16 @@ public:
         cout << endl;
     }
 
+    int printEdgeList2() {
+
+        int nb = 0;
+
+        for (auto it = edgeList.begin(); it != edgeList.end(); it++) {
+            nb++;
+        }
+        return nb;
+    }
+
     void updateVertexName(string sname) {
         state_name = sname;
         cout << "Vertex Name Updated Successfully";
@@ -295,6 +305,32 @@ public:
             temp = vertices.at(i);
             cout << temp.getStateName() << " (" << temp.getStateID() << ") --> ";
             temp.printEdgeList();
+        }
+    }
+
+    void getnbEdges() {
+        int id;
+        int node[5] = {};
+        int rank[5] = {};
+
+        for (int j = 0; j < vertices.size(); j++) {
+            Vertex temp;
+            temp = vertices.at(j);
+            id = temp.getStateID();
+            int nb = temp.printEdgeList2();
+            for (int i = 0; i < 5; i++) {
+                if ((nb > rank[i] || rank[i] == NULL)) {
+                    node[i + 1] = node[i];
+                    rank[i + 1] = rank[i];
+                    node[i] = id;
+                    rank[i] = nb;
+                    i = 6;
+                }
+            }
+        }
+        cout << "Voici les cinq premier site : " << endl;
+        for (int i = 0; i < 5; i++) {
+            cout << node[i] << " : " << rank[i] << endl;
         }
     }
 

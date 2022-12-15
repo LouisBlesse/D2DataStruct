@@ -5,8 +5,8 @@
 
 using namespace std;
 
-void Indegree() {
-
+void Indegree(Graph g) {
+	g.getnbEdges();
 }
 
 void Pagerank() {
@@ -39,22 +39,24 @@ void Programme2::Play() {
 
 	i = 0;
 	while (Read_text2 >> id1 >> id2 && i < 10000) {
-		g.addEdgeByID(id1, id2, 0);
+		if (id1 != id2)
+			g.addEdgeByID(id1, id2, 0);
 		i++;
 	}
 
 	Read_text2.close();
 
-    g.printGraph();
+	g.printGraph();
 
-    system("PAUSE");
+	system("PAUSE");
 	int choix;
 
 	cout << "Quelle algorithme voulez vous lancez ?\n1-Indegree\n2-PageRank" << endl;
 	cin >> choix;
 	if (choix == 1) {
-		Indegree();
+		Indegree(g);
 	}
 	else if (choix == 2) {
 		Pagerank();
 	}
+}
