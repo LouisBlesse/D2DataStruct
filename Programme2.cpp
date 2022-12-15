@@ -9,8 +9,8 @@ void Indegree(Graph g) {
 	g.getnbEdges();
 }
 
-void Pagerank() {
-		
+void Pagerank(Graph g) {
+	g.getnboutdegree();
 }
 
 void Programme2::Play() {
@@ -19,7 +19,7 @@ void Programme2::Play() {
 	int id;
 	int id1;
 	int id2;
-	string outdegree;
+	int outdegree;
 	string url;
 	Graph g;
 
@@ -29,6 +29,7 @@ void Programme2::Play() {
 		Vertex v1;
 		v1.setID(id);
 		v1.setStateName(url);
+		v1.setOutdegree(outdegree);
 		g.addVertex(v1);
 		i++;
 	}
@@ -57,6 +58,6 @@ void Programme2::Play() {
 		Indegree(g);
 	}
 	else if (choix == 2) {
-		Pagerank();
+		Pagerank(g);
 	}
 }

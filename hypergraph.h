@@ -10,8 +10,8 @@ class Vertex;
 
 class Edge {
 public:
-    int DestinationVertexID;
-    int weight;
+    int DestinationVertexID = 0;
+    int weight = 0;
 
     Edge() {}
     Edge(int destVID, int w) {
@@ -38,12 +38,14 @@ class Vertex {
 public:
     int state_id;
     string state_name;
+    int state_outdegree;
 
     list < Edge > edgeList;
 
     Vertex() {
         state_id = 0;
         state_name = "";
+        state_outdegree = 0;
     }
 
     Vertex(int id, string sname) {
@@ -57,11 +59,18 @@ public:
     string getStateName() {
         return state_name;
     }
+    int getStateoutdegree() {
+        return state_outdegree;
+    }
     void setID(int id) {
         state_id = id;
     }
     void setStateName(string sname) {
         state_name = sname;
+    }
+
+    void setOutdegree(int soutdegree) {
+        state_outdegree = soutdegree;
     }
 
     list < Edge > getEdgeList() {
@@ -334,6 +343,32 @@ public:
         }
     }
 
+    void getnboutdegree() {
+        int id;
+        int nb;
+        int node[5] = {};
+        int rank[5] = {};
+
+        for (int j = 0; j < vertices.size(); j++) {
+            Vertex temp;
+            temp = vertices.at(j);
+            id = temp.getStateID();
+            nb = temp.getStateoutdegree();
+            for (int i = 0; i < 5; i++) {
+                if ((nb > rank[i] || rank[i] == NULL)) {
+                    node[i + 1] = node[i];
+                    rank[i + 1] = rank[i];
+                    node[i] = id;
+                    rank[i] = nb;
+                    i = 6;
+                }
+            }
+        }
+        cout << "Voici les cinq premier site : " << endl;
+        for (int i = 0; i < 5; i++) {
+            cout << node[i] << " : " << rank[i] << endl;
+        }
+    }
 };
 /*
 int main() {
