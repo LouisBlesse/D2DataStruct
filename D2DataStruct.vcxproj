@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="D2DataStruct.cpp" />
+    <ClCompile Include="hypergraph.cpp" />
     <ClCompile Include="KdTree.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Programme1.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="Programme3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="hypergraph.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="KdTree.h" />
     <ClInclude Include="Point.h" />
