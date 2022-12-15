@@ -142,19 +142,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Cell.cpp" />
     <ClCompile Include="D2DataStruct.cpp" />
+    <ClCompile Include="hypergraph.cpp" />
     <ClCompile Include="KdTree.cpp" />
+    <ClCompile Include="Point.cpp" />
     <ClCompile Include="Programme1.cpp" />
     <ClCompile Include="Programme2.cpp" />
     <ClCompile Include="Programme4.cpp" />
     <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="Programme3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="hypergraph.h" />
+    <ClInclude Include="Cell.h" />
     <ClInclude Include="KdTree.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="Programme1.h" />
     <ClInclude Include="Programme2.h" />
     <ClInclude Include="Programme4.h" />
     <ClInclude Include="quadtree.h" />
+    <ClInclude Include="Programme3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
