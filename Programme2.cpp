@@ -2,6 +2,7 @@
 #include <iostream>
 #include "hypergraph.h"
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -22,9 +23,13 @@ void Programme2::Play() {
 	int outdegree;
 	string url;
 	Graph g;
+	string tmp;
 
 	ifstream Read_text1("C:/Users/Charles/Documents/UQAC/Structure_de_donnee/Projet2/Fichiers/Exo2/eu-2005.nodes.txt");
 
+	for (int n = 0; n < 2; n++) 
+		getline(Read_text1, tmp);
+	
 	while (Read_text1 >> id >> outdegree >> url && i < 10000) {
 		Vertex v1;
 		v1.setID(id);
@@ -38,10 +43,13 @@ void Programme2::Play() {
 
 	ifstream Read_text2("C:/Users/Charles/Documents/UQAC/Structure_de_donnee/Projet2/Fichiers/Exo2/eu-2005.edges.txt");
 
+	for (int n = 0; n < 2; n++)
+		getline(Read_text2, tmp);
+
 	i = 0;
 	while (Read_text2 >> id1 >> id2 && i < 10000) {
 		if (id1 != id2)
-			g.addEdgeByID(id1, id2, 0);
+			g.addEdgeByID(id1, id2);
 		i++;
 	}
 
