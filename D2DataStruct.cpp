@@ -4,13 +4,15 @@
 #include <iostream>
 #include "Programme1.h"
 #include "Programme2.h"
+#include "Programme4.h"
 #include "Programme3.h"
+
 using namespace std;
 
 int main()
 {
     int choix = 0;
-    while (choix != 6) {
+    //while (choix != 6) {
         cout << "Quel programme voulez vous lancer \n 1: Kd-Tree\n 2: Hypergraph et referencement web \n 3: Labyrinthes \n 4: Compression d’images \n 6: Quitter\n\n";
         cin >> choix;
 
@@ -32,7 +34,7 @@ int main()
             party.Play();
         }*/
 
-    }
+    //}
 }
 
 // Exécuter le programme : Ctrl+F5 ou menu Déboguer > Exécuter sans débogage

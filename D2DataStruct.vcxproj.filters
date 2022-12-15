@@ -28,6 +28,10 @@
     <ClCompile Include="KdTree.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Programme4.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
     <ClCompile Include="Programme3.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -49,6 +53,10 @@
     <ClInclude Include="KdTree.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Programme4.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="quadtree.h">
     <ClInclude Include="Programme3.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
