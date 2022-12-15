@@ -83,6 +83,9 @@ void Encode() {
             imshow("Decoder", img);
             waitKey(0);
         }
+        else if (choix2 == 2) {
+            cout << "Malheuresement pas encore disponible" << endl;
+        }
     }
 
 void Programme4::Play() {

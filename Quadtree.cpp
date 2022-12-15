@@ -1,9 +1,8 @@
 #include "quadtree.h"
 
-//creates a qt_node
 qt_node* init_node() {
     qt_node* newQTNode = new qt_node;
-    newQTNode->is_leaf = false; //change this?
+    newQTNode->is_leaf = false;
     newQTNode->r_min = NULL;
     newQTNode->r_max = NULL;
     newQTNode->c_min = NULL;
@@ -17,7 +16,6 @@ qt_node* init_node() {
     return newQTNode;
 }
 
-//adds pixel values, r_min/max, c_min/max
 void add_values(qt_node* q, int* p, int num_rows, int num_cols) {
     q->p = p;
     q->prows = num_rows;
@@ -28,15 +26,12 @@ void add_values(qt_node* q, int* p, int num_rows, int num_cols) {
     q->c_max = num_cols - 1;
 }
 
-
-//splits a qt_node into 4 smaller nodes with corresponding pixel values
 void split_qt_node(qt_node* q) {
 
     int qRMin = q->r_min;
     int qRMax = q->r_max;
     int qCMin = q->c_min;
     int qCMax = q->c_max;
-
     bool noSouth = (qRMin == qRMax);
     bool noEast = (qCMin == qCMax);
 
@@ -60,7 +55,6 @@ void split_qt_node(qt_node* q) {
         q->NE->c_max = qCMax;
     }
 
-
     if (!noSouth) {
         q->SW = init_node();
         q->SW->p = q->p;
@@ -82,8 +76,6 @@ void split_qt_node(qt_node* q) {
         q->SE->c_min = (qCMax + qCMin) / 2 + 1;
         q->SE->c_max = qCMax;
     }
-
-
 }
 
 
@@ -107,7 +99,6 @@ float get_avg_pxvalue(qt_node* q) {
 
 float get_pixel_variance(qt_node* q) {
     float average = get_avg_pxvalue(q);
-
     float total_dev = 0;
     int r_min = q->r_min;
     int r_max = q->r_max;
@@ -124,14 +115,8 @@ float get_pixel_variance(qt_node* q) {
     return dev;
 }
 
-//builds the quad-tree based on the specified maximum pixel value variance
-//splits starting node and successive nodes into child nodes
 void build_tree(qt_node* start, int max_var) {
-    if (start == NULL) { //NEW
-        return;
-    }
     float var = get_pixel_variance(start);
-
 
     if (var > max_var) {
         split_qt_node(start);
@@ -148,15 +133,8 @@ void build_tree(qt_node* start, int max_var) {
 }
 
 
-//Unpacks the tree data into an array
-//Not used in this implementation
 void unpack_tree(qt_node* start, int* unpacked, int total_rows, int total_cols) {
 
-    if (start == NULL) { //NEW
-        return;
-    }
-
-    //base case
     if (start->is_leaf) {
         int r_min = start->r_min;
         int r_max = start->r_max;
@@ -177,13 +155,8 @@ void unpack_tree(qt_node* start, int* unpacked, int total_rows, int total_cols) 
     }
 }
 
-//Unpacks the tree data into an OpenCV Matrix structure
 void unpack_tree(qt_node* start, cv::Mat& modified, int total_rows, int total_cols) {
-    if (start == NULL) { //NEW
-        return;
-    }
 
-    //base case
     if (start->is_leaf) {
         int r_min = start->r_min;
         int r_max = start->r_max;
@@ -204,12 +177,7 @@ void unpack_tree(qt_node* start, cv::Mat& modified, int total_rows, int total_co
     }
 }
 
-//counts leaf nodes of an already built tree
-//can be a proxy for the number of pixel representations
 int count_tree_nodes(qt_node* start) {
-    if (start == NULL) {
-        return 0;
-    }
     if (start->is_leaf) {
         return 1;
     }
@@ -218,13 +186,7 @@ int count_tree_nodes(qt_node* start) {
     }
 }
 
-
-//Counts the number of pixels used
-//Just for checking, should be equal to the image's rows * cols
 int check_num_pixels(qt_node* start) {
-    if (start == NULL) {
-        return 0;
-    }
     if (start->is_leaf) {
         int size = (start->r_max - start->r_min + 1) * (start->c_max - start->c_min + 1);
         return size;
